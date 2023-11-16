@@ -1,0 +1,55 @@
+pipeline
+{
+    agent
+    {
+        label
+        {
+            label "built-in"
+            customWorkspace "/mnt/wsp"
+        }
+    }
+    stages
+    {
+        stage("Cloning Repo & Making Tar")
+        {
+            steps
+            {
+                sh "rm -rf *"
+                git credentialsId: 'Git-Hub-Token', url: 'https://github.com/aniket28022001/Jenkins-Project.git'
+                sh "tar -cvf project.tar *"
+                
+            }
+        }
+        stage("Sending the Tar File to Slave1")
+        {
+            steps
+            {
+                sh "scp -i /mnt/Region_1_Keypair.pem project.tar ec2-user@172.31.8.134:/mnt/slave1"
+            }
+        }
+        stage("On Slave Machine")
+        {
+            agent
+            {
+                node
+                {
+                    label "slave1"
+                    customWorkspace "/mnt/slave1"
+                }
+            }
+            steps
+            {
+                sh "tar -xvf project.tar"
+                
+                dir("/mnt/wsp2")
+                {
+                    sh "mvn install"
+                }
+                sh "cp -r /mnt/slave1 target/LoginWebApp.war /mnt/apache-tomcat-9.0.82/webapps"
+                
+            }
+            
+        }
+    }
+}   
+           
