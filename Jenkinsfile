@@ -35,44 +35,33 @@ pipeline
                 sh "sudo chmod -R 777 /var/www/html/index.html"
             }
         }
-        
     }
-     agent
+    stage("On SLAVE 2 Machine")
     {
-        label
+        agent
         {
-            label "slave2"
+            label
+            {
+                label "slave2"
+            }
+            
+        }
+        steps
+        {
+            sh "rm -rf *"
+            sh "git clone https://github.com/aniket28022001/Aniket_Wale_1st_July.git -b 2023-Q2"
+            sh "sudo chmod -R 777 /mnt"
+            sh "sudo yum install httpd -y"
+            sh "sudo service httpd start"
+            sh "sudo chkconfig httpd on"
+            sh "sudo cp -r Aniket_Wale_1st_July/index.html /var/www/html/"
+            sh "sudo chmod -R 777 /var/www/html/index.html"
+            
         }
     }
-    stages
-    {
-        stage("Branch 2023-Q2 Cloning")
-        {
-            steps
-            {
-                sh "rm -rf *"
-                sh "git clone https://github.com/aniket28022001/Aniket_Wale_1st_July.git -b 2023-Q2"
-                sh "sudo chmod -R 777 /mnt"
-            }
-        }
-        stage("Installation Httpd")
-        {
-            steps
-            {
-                sh "sudo yum install httpd -y"
-                sh "sudo service httpd start"
-                sh "sudo chkconfig httpd on"
-            }
-        }
-        stage("Deploying")
-        {
-            steps
-            {
-                sh "sudo cp -r Aniket_Wale_1st_July/index.html /var/www/html/"
-                sh "sudo chmod -R 777 /var/www/html/index.html"
-            }
-        }
-        
-    }
-    
 }
+
+
+
+
+
