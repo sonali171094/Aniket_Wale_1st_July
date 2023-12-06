@@ -31,7 +31,7 @@ pipeline
         {
             steps
             {
-                sh "cp -r Aniket_Wale_1st_July/index.html /var/www/html/"
+                sh "sudo cp -r Aniket_Wale_1st_July/index.html /var/www/html/"
                 sh "sudo chmod -R 777 /var/www/html/index.html"
             }
         }
