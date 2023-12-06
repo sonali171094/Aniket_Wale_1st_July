@@ -21,9 +21,9 @@ pipeline
         {
             steps
             {
-                sh "yum install httpd -y"
-                sh "service httpd start"
-                sh "chkconfig httpd on"
+                sh "sudo yum install httpd -y"
+                sh "sudo service httpd start"
+                sh "sudo chkconfig httpd on"
             }
         }
         stage("Deploying")
