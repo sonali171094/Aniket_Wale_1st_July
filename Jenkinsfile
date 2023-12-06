@@ -15,7 +15,6 @@ pipeline
             {
                 sh "rm -rf *"
                 sh "git clone https://github.com/aniket28022001/Aniket_Wale_1st_July.git -b 2023-Q1"
-                sh "chmod -R 777 /mnt"
             }
         }
         stage("Installation Httpd")
